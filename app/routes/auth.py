@@ -103,3 +103,13 @@ def refresh_access_token(
         "refresh_token": user.refresh_token,
         "token_type": "bearer",
     }
+
+
+
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+def logout_user(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    current_user.refresh_token = None
+    db.commit()
