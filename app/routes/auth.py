@@ -61,3 +61,13 @@ def login_user(
 @router.get("/me", response_model=UserResponse)
 def get_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+
+from app.core.security import require_admin
+
+@router.get("/admin/users", response_model=list[UserResponse])
+def get_all_users(
+    db: Session = Depends(get_db),
+    _: User = Depends(require_admin),
+):
+    return db.query(User).all()
