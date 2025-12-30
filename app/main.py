@@ -3,16 +3,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.db.session import engine
 from app.db.base import Base
-from app.models import user  # noqa: F401 (ensures model is registered)
+from app.models import user
 from app.routes.auth import router as auth_router
 
-# ✅ Create app FIRST
 app = FastAPI(title="Auth Service")
 
-# ✅ Then add middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
